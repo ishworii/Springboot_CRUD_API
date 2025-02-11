@@ -2,6 +2,8 @@ package com.ishwor.bookmarks;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 @RestController
@@ -21,8 +23,9 @@ public class BookmarkController {
     }
 
     @GetMapping
-    List<BookmarkInfo> getBookmarks(){
-        return bookmarkRepository.findAllByOrderByCreatedAtDesc();
+    Page<Bookmark> getBookmarks(Pageable pageable){
+        return bookmarkRepository.findAll(pageable);
+
     }
 
     @GetMapping("/{id}")
